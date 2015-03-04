@@ -735,7 +735,7 @@ zend_object_value php_zk_new(zend_class_entry *ce TSRMLS_DC)
     php_zk_t *i_obj;
     zval *tmp;
 
-    i_obj = ecalloc(1, sizeof(*i_obj));
+    i_obj = (php_zk_t*) ecalloc(1, sizeof(*i_obj));
 	zend_object_std_init( &i_obj->zo, ce TSRMLS_CC );
 #if PHP_VERSION_ID < 50399
     zend_hash_copy(i_obj->zo.properties, &ce->default_properties, (copy_ctor_func_t) zval_add_ref, (void *) &tmp, sizeof(zval *));
@@ -935,7 +935,7 @@ static void php_aclv_to_array(const struct ACL_vector *aclv, zval *array)
 
 static void php_zk_init_globals(zend_php_zookeeper_globals *php_zookeeper_globals_p TSRMLS_DC)
 {
-	zend_hash_init_ex(&ZK_G(callbacks), 5, NULL, (dtor_func_t)php_cb_data_destroy, 1, 0);
+	zend_hash_init(&ZK_G(callbacks), 5, NULL, (dtor_func_t)php_cb_data_destroy, 1);
 	php_zookeeper_globals_p->recv_timeout = 10000;
 	php_zookeeper_globals_p->session_lock = 1;
 }

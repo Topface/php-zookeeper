@@ -18,7 +18,7 @@
 #ifndef ZOOKEEPER_LOCK_H_
 #define ZOOKEEPER_LOCK_H_
 
-#include <zookeeper.h>
+#include <zookeeper/zookeeper.h>
 #include <pthread.h>
 
 #ifdef __cplusplus

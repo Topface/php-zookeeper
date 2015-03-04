@@ -209,7 +209,7 @@ PS_READ_FUNC(zookeeper)
 		return FAILURE;
 	}
 
-	*val    = emalloc(stat.dataLength);
+	*val    = (char*) emalloc(stat.dataLength);
 	*vallen = stat.dataLength;
 
 	retry_count = 3;

@@ -27,12 +27,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <zookeeper_log.h>
+#include <zookeeper/zookeeper_log.h>
 #include <time.h>
 #include <sys/time.h>
 #include <sys/socket.h>
 #include <limits.h>
-#include <zoo_lock.h>
+#include "zoo_lock.h"
 #include <stdbool.h>
 #ifdef HAVE_SYS_UTSNAME_H
 #include <sys/utsname.h>
