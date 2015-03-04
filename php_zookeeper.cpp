@@ -692,7 +692,7 @@ static PHP_METHOD(Zookeeper, setLogStream)
 		RETURN_FALSE;
 	}
 
-	if (FAILURE == php_stream_cast(stream, PHP_STREAM_AS_STDIO, (void *) &fp, REPORT_ERRORS)) {
+	if (FAILURE == php_stream_cast(stream, PHP_STREAM_AS_STDIO, (void **) &fp, REPORT_ERRORS)) {
 		RETURN_FALSE;
 	}
 
