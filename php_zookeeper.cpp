@@ -660,7 +660,7 @@ static PHP_METHOD(Zookeeper, setWatcher)
 	ZK_METHOD_FETCH_OBJECT;
 
 	if (i_obj->cb_data) {
-		zend_hash_index_del(&ZK_G(callbacks), i_obj->cb_data->h);
+		zend_hash_index_del(ZK_G(callbacks), i_obj->cb_data->h);
 	}
 	cb_data = php_cb_data_new(&fci, &fcc, 0 TSRMLS_CC);
 	zoo_set_watcher(i_obj->zk, php_zk_watcher_marshal);
@@ -714,7 +714,7 @@ static PHP_METHOD(Zookeeper, setLogStream)
 static void php_zk_destroy(php_zk_t *i_obj TSRMLS_DC)
 {
 	if (i_obj->cb_data) {
-		zend_hash_index_del(&ZK_G(callbacks), i_obj->cb_data->h);
+		zend_hash_index_del(ZK_G(callbacks), i_obj->cb_data->h);
 	}
 	if (i_obj->zk) {
 		zookeeper_close(i_obj->zk);
@@ -755,8 +755,8 @@ static php_cb_data_t* php_cb_data_new(zend_fcall_info *fci, zend_fcall_info_cach
 	cbd->fci = *fci;
 	cbd->fcc = *fcc;
 	cbd->oneshot = oneshot;
-	zend_hash_next_index_insert(&ZK_G(callbacks), (void*)&cbd, sizeof(php_cb_data_t *), NULL);
-	cbd->h = zend_hash_num_elements(&ZK_G(callbacks))-1;
+	zend_hash_next_index_insert(ZK_G(callbacks), (void*)&cbd, sizeof(php_cb_data_t *), NULL);
+	cbd->h = zend_hash_num_elements(ZK_G(callbacks))-1;
 	return cbd;
 }
 
@@ -807,7 +807,7 @@ static void php_zk_watcher_marshal(zhandle_t *zk, int type, int state, const cha
 	zval_ptr_dtor(&z_path);
 
 	if (cb_data->oneshot) {
-		zend_hash_index_del(&ZK_G(callbacks), cb_data->h);
+		zend_hash_index_del(ZK_G(callbacks), cb_data->h);
 	}
 }
 
@@ -839,7 +839,7 @@ static void php_zk_completion_marshal(int rc, const void *context)
 	zval_ptr_dtor(&z_rc);
 
 	if (cb_data->oneshot) {
-		zend_hash_index_del(&ZK_G(callbacks), cb_data->h);
+		zend_hash_index_del(ZK_G(callbacks), cb_data->h);
 	}
 }
 
@@ -935,14 +935,15 @@ static void php_aclv_to_array(const struct ACL_vector *aclv, zval *array)
 
 static void php_zk_init_globals(zend_php_zookeeper_globals *php_zookeeper_globals_p TSRMLS_DC)
 {
-	zend_hash_init(&ZK_G(callbacks), 5, NULL, (dtor_func_t)php_cb_data_destroy, 1);
+	ALLOC_HASHTABLE(php_zookeeper_globals_p->callbacks);
+	zend_hash_init(php_zookeeper_globals_p->callbacks, 5, NULL, (dtor_func_t)php_cb_data_destroy, 1);
 	php_zookeeper_globals_p->recv_timeout = 10000;
 	php_zookeeper_globals_p->session_lock = 1;
 }
 
 static void php_zk_destroy_globals(zend_php_zookeeper_globals *php_zookeeper_globals_p TSRMLS_DC)
 {
-	zend_hash_destroy(&ZK_G(callbacks));
+	zend_hash_destroy(php_zookeeper_globals_p->callbacks);
 }
 
 PHP_ZOOKEEPER_API
@@ -1254,7 +1255,7 @@ PHP_MSHUTDOWN_FUNCTION(zookeeper)
 /* {{{ PHP_RSHUTDOWN_FUNCTION */
 PHP_RSHUTDOWN_FUNCTION(zookeeper)
 {
-	zend_hash_clean(&ZK_G(callbacks));
+	zend_hash_clean(ZK_G(callbacks));
 
 	return SUCCESS;
 }
