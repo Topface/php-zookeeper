@@ -1080,6 +1080,13 @@ static zend_function_entry zookeeper_class_methods[] = {
 #undef ZK_ME
 /* }}} */
 
+/* {{{ zookeeper_functions
+ */
+static zend_function_entry zookeeper_functions[] = {
+    { NULL, NULL, NULL }
+};
+/* }}} */
+
 /* {{{ zookeeper_module_entry
  */
 
@@ -1092,7 +1099,7 @@ zend_module_entry zookeeper_module_entry = {
     STANDARD_MODULE_HEADER,
 #endif
 	"zookeeper",
-	NULL,
+	zookeeper_functions,
 	PHP_MINIT(zookeeper),
 	PHP_MSHUTDOWN(zookeeper),
 	NULL,
