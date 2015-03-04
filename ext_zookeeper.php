@@ -1,9 +1,10 @@
-<?php
+<?hh
 
 /**
  * Zookeeper class.
  */
 
+<<__NativeData("ZendCompat")>>
 class Zookeeper {
 
 	/* class constants */
@@ -64,50 +65,71 @@ class Zookeeper {
 
 
 	/* if the host is provided, attempt to connect. */
-	public function __construct( $host = '', $watcher_cb = null, $recv_timeout = 10000) {}
+	<<__NativeData("ZendCompat")>>
+	public function __construct( mixed $host = '', mixed $watcher_cb = null, mixed $recv_timeout = 10000): void;
 
-	public function connect( $host, $watcher_cb = null, $recv_timeout = 10000) {}
+	<<__NativeData("ZendCompat")>>
+	public function connect( mixed $host, mixed $watcher_cb = null, mixed $recv_timeout = 10000): mixed;
 
-	public function create( $host, $watcher_cb = null, $recv_timeout = 10000) {}
+	<<__NativeData("ZendCompat")>>
+	public function create( mixed $host, mixed $watcher_cb = null, mixed $recv_timeout = 10000): mixed;
 
-	public function create( $path, $value, $acl, $flags = null ) {}
+	<<__NativeData("ZendCompat")>>
+	public function create( mixed $path, mixed $value, mixed $acl, mixed $flags = null ): mixed;
 
-	public function delete( $path, $version = -1 ) {}
+	<<__NativeData("ZendCompat")>>
+	public function delete( mixed $path, mixed $version = -1 ): mixed;
 
-	public function set( $path, $data, $version = -1, &$stat = null ) {}
+	<<__NativeData("ZendCompat")>>
+	public function set( mixed $path, mixed $data, mixed $version = -1, mixed &$stat = null ): mixed;
 
-	public function get( $path, $watcher_cb = null, &$stat = null, $max_size = 0) {}
+	<<__NativeData("ZendCompat")>>
+	public function get( mixed $path, mixed $watcher_cb = null, mixed &$stat = null, mixed $max_size = 0): mixed;
 
-	public function getChildren( $path, $watcher_cb = null ) {}
+	<<__NativeData("ZendCompat")>>
+	public function getChildren( mixed $path, mixed $watcher_cb = null ): mixed;
 
-	public function exists( $path, $watcher_cb = null ) {}
+	<<__NativeData("ZendCompat")>>
+	public function exists( mixed $path, mixed $watcher_cb = null ): mixed;
 
-	public function getAcl( $path ) {}
+	<<__NativeData("ZendCompat")>>
+	public function getAcl( mixed $path ): mixed;
 
-	public function setAcl( $path, $version, $acls ) {}
+	<<__NativeData("ZendCompat")>>
+	public function setAcl( mixed $path, mixed $version, mixed $acls ): mixed;
 
-	public function getClientId( ) {}
+	<<__NativeData("ZendCompat")>>
+	public function getClientId( ): mixed;
 
-	public function setWatcher( $watcher_cb ) {}
+	<<__NativeData("ZendCompat")>>
+	public function setWatcher( mixed $watcher_cb ): mixed;
 
-	public function getState( ) {}
+	<<__NativeData("ZendCompat")>>
+	public function getState( ): mixed;
 
-	public function getRecvTimeout( ) {}
+	<<__NativeData("ZendCompat")>>
+	public function getRecvTimeout( ): mixed;
 
-	public function addAuth( $scheme, $cert, $completion_cb = null ) {}
+	<<__NativeData("ZendCompat")>>
+	public function addAuth( mixed $scheme, mixed $cert, mixed $completion_cb = null ): mixed;
 
-	public function isRecoverable( ) {}
+	<<__NativeData("ZendCompat")>>
+	public function isRecoverable( ): mixed;
 
-	public function setLogFile( $file ) {} // TODO: might be able to set a stream like php://stderr or something
+	<<__NativeData("ZendCompat")>>
+	public function setLogFile( mixed $file ): mixed; // TODO: might be able to set a stream like php://stderr or something
 
-	public function getResultMessage( ) {}
+	<<__NativeData("ZendCompat")>>
+	public function getResultMessage( ): mixed;
 
 
 	// static methods
 
-	static public function setDebugLevel( $level ) {}
+	<<__NativeData("ZendCompat")>>
+	static public function setDebugLevel( mixed $level ): mixed;
 
-	static public function setDeterministicConnOrder( $trueOrFalse ) {}
+	<<__NativeData("ZendCompat")>>
+	static public function setDeterministicConnOrder( mixed $trueOrFalse ): mixed;
 
 }
 
