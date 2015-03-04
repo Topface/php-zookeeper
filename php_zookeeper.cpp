@@ -207,7 +207,7 @@ static PHP_METHOD(Zookeeper, create)
 		// allocate extra space for sequence numbers
 		realpath_max += 11;
 	}
-	realpath = emalloc(realpath_max);
+	realpath = (char*) emalloc(realpath_max);
 
 	if (value == NULL) {
 		value_len = -1;
@@ -334,7 +334,7 @@ static PHP_METHOD(Zookeeper, get)
 		length = max_size;
 	}
 
-	buffer = emalloc (length+1);
+	buffer = (char*) emalloc (length+1);
 	status = zoo_wget(i_obj->zk, path, (fci.size != 0) ? php_zk_watcher_marshal : NULL,
 					  cb_data, buffer, &length, &stat);
 	buffer[length] = 0;
@@ -751,7 +751,7 @@ zend_object_value php_zk_new(zend_class_entry *ce TSRMLS_DC)
 
 static php_cb_data_t* php_cb_data_new(zend_fcall_info *fci, zend_fcall_info_cache *fcc, zend_bool oneshot TSRMLS_DC)
 {
-	php_cb_data_t *cbd = emalloc(sizeof(php_cb_data_t));
+	php_cb_data_t *cbd = (php_cb_data_t*) emalloc(sizeof(php_cb_data_t));
 	cbd->fci = *fci;
 	cbd->fcc = *fcc;
 	cbd->oneshot = oneshot;
