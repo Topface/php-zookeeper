@@ -72,9 +72,6 @@ class Zookeeper {
 	public function connect( mixed $host, mixed $watcher_cb = null, mixed $recv_timeout = 10000): mixed;
 
 	<<__Native("ZendCompat")>>
-	public function create( mixed $host, mixed $watcher_cb = null, mixed $recv_timeout = 10000): mixed;
-
-	<<__Native("ZendCompat")>>
 	public function create( mixed $path, mixed $value, mixed $acl, mixed $flags = null ): mixed;
 
 	<<__Native("ZendCompat")>>
