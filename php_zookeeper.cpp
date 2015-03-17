@@ -935,8 +935,6 @@ static void php_aclv_to_array(const struct ACL_vector *aclv, zval *array)
 
 static void php_zk_init_globals(zend_php_zookeeper_globals *php_zookeeper_globals_p TSRMLS_DC)
 {
-	ALLOC_HASHTABLE(php_zookeeper_globals_p->callbacks);
-	zend_hash_init(php_zookeeper_globals_p->callbacks, 5, NULL, (dtor_func_t)php_cb_data_destroy, 1);
 	php_zookeeper_globals_p->recv_timeout = 10000;
 	php_zookeeper_globals_p->session_lock = 1;
 }
@@ -1103,8 +1101,8 @@ zend_module_entry zookeeper_module_entry = {
 	zookeeper_functions,
 	PHP_MINIT(zookeeper),
 	PHP_MSHUTDOWN(zookeeper),
+	PHP_RINIT(zookeeper),
 	NULL,
-	PHP_RSHUTDOWN(zookeeper),
 	PHP_MINFO(zookeeper),
 	PHP_ZOOKEEPER_VERSION,
 	STANDARD_MODULE_PROPERTIES
@@ -1252,11 +1250,13 @@ PHP_MSHUTDOWN_FUNCTION(zookeeper)
 }
 /* }}} */
 
-/* {{{ PHP_RSHUTDOWN_FUNCTION */
-PHP_RSHUTDOWN_FUNCTION(zookeeper)
+/* {{{ PHP_RINIT_FUNCTION */
+PHP_RINIT_FUNCTION(zookeeper)
 {
-	zend_hash_clean(ZK_G(callbacks));
+	HashTable *cb = ZK_G(callbacks);
 
+	ALLOC_HASHTABLE(cb);
+	zend_hash_init(cb, 5, NULL, (dtor_func_t)php_cb_data_destroy, 0);
 	return SUCCESS;
 }
 /* }}} */
