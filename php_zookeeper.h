@@ -45,6 +45,7 @@ ZEND_END_MODULE_GLOBALS(php_zookeeper)
 PHP_MINIT_FUNCTION(zookeeper);
 PHP_MSHUTDOWN_FUNCTION(zookeeper);
 PHP_RINIT_FUNCTION(zookeeper);
+PHP_GINIT_FUNCTION(php_zookeeper);
 PHP_MINFO_FUNCTION(zookeeper);
 
 #define PHP_ZOOKEEPER_VERSION "0.1.0"

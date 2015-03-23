@@ -933,17 +933,6 @@ static void php_aclv_to_array(const struct ACL_vector *aclv, zval *array)
 
 /* {{{ internal API functions */
 
-static void php_zk_init_globals(zend_php_zookeeper_globals *php_zookeeper_globals_p TSRMLS_DC)
-{
-	php_zookeeper_globals_p->recv_timeout = 10000;
-	php_zookeeper_globals_p->session_lock = 1;
-}
-
-static void php_zk_destroy_globals(zend_php_zookeeper_globals *php_zookeeper_globals_p TSRMLS_DC)
-{
-	zend_hash_destroy(php_zookeeper_globals_p->callbacks);
-}
-
 PHP_ZOOKEEPER_API
 zend_class_entry *php_zk_get_ce(void)
 {
@@ -1105,7 +1094,11 @@ zend_module_entry zookeeper_module_entry = {
 	NULL,
 	PHP_MINFO(zookeeper),
 	PHP_ZOOKEEPER_VERSION,
-	STANDARD_MODULE_PROPERTIES
+	PHP_MODULE_GLOBALS(php_zookeeper),
+	PHP_GINIT(php_zookeeper),
+	NULL,
+	NULL,
+	STANDARD_MODULE_PROPERTIES_EX
 };
 /* }}} */
 
@@ -1221,13 +1214,6 @@ PHP_MINIT_FUNCTION(zookeeper)
 
 	php_zk_register_constants(INIT_FUNC_ARGS_PASSTHRU);
 
-#ifdef ZTS
-	ts_allocate_id(&php_zookeeper_globals_id, sizeof(zend_php_zookeeper_globals),
-				   (ts_allocate_ctor) php_zk_init_globals, (ts_allocate_dtor) php_zk_destroy_globals);
-#else
-	php_zk_init_globals(&php_zookeeper_globals TSRMLS_CC);
-#endif
-
 	REGISTER_INI_ENTRIES();
 #ifdef HAVE_ZOOKEEPER_SESSION
 	php_session_register_module(ps_zookeeper_ptr);
@@ -1239,12 +1225,6 @@ PHP_MINIT_FUNCTION(zookeeper)
 /* {{{ PHP_MSHUTDOWN_FUNCTION */
 PHP_MSHUTDOWN_FUNCTION(zookeeper)
 {
-#ifdef ZTS
-    ts_free_id(php_zookeeper_globals_id);
-#else
-    php_zk_destroy_globals(&php_zookeeper_globals TSRMLS_CC);
-#endif
-
 	UNREGISTER_INI_ENTRIES();
 	return SUCCESS;
 }
@@ -1258,6 +1238,13 @@ PHP_RINIT_FUNCTION(zookeeper)
 	ALLOC_HASHTABLE(cb);
 	zend_hash_init(cb, 5, NULL, (dtor_func_t)php_cb_data_destroy, 0);
 	return SUCCESS;
+}
+/* }}} */
+
+/* {{{ PHP_GINIT_FUNCTION */
+PHP_GINIT_FUNCTION(php_zookeeper){
+	php_zookeeper_globals->recv_timeout = 10000;
+	php_zookeeper_globals->session_lock = 1;
 }
 /* }}} */
 
